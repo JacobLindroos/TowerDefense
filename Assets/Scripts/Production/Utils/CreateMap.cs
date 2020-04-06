@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEditor;
 using System.IO;
 
-public class CreateMap
+public class CreateMap //POCO
 {
 	private MapReader mapReader;
 
@@ -18,10 +18,18 @@ public class CreateMap
 
 	//cellsize
 	[SerializeField] private int cellSize = 2;
-	
+
+	private Vector2Int startTilePos;
+	private Vector2Int endTilePos;
 	private char currentTileChar;
 	private List<string> lines;
+	private List<Vector2Int> walkablePath;
+
 	private readonly Dictionary<TileType, GameObject> m_prefabById;
+
+	public List<Vector2Int> WalkablePath => walkablePath;
+	public Vector2Int StartTilePos => startTilePos;
+	public Vector2Int EndTilePos => endTilePos;
 
 	public CreateMap(IEnumerable<MapKeyData> mapKeyDatas, TextAsset txtFile)
 	{
@@ -40,7 +48,8 @@ public class CreateMap
 
 	public void MapCreator()
 	{
-		for (int lineIndex = lines.Count - 1; lineIndex >= 0; lineIndex--)
+		walkablePath = new List<Vector2Int>();
+		for (int lineIndex = lines.Count - 1, rowIndex = 0; lineIndex >= 0; lineIndex--, rowIndex++)
 		{
 			string line = lines[lineIndex];
 
@@ -48,7 +57,7 @@ public class CreateMap
 			{
 				char item = line[columnIndex];
 				
-				float z = lineIndex * cellSize;
+				float z = rowIndex * cellSize;
 				float x = columnIndex * cellSize;
 				switch (item)
 				{
@@ -74,30 +83,27 @@ public class CreateMap
 
 				TileType tileType = TileMethods.TypeByIdChar[currentTileChar];
 				GameObject currentPrefab = m_prefabById[tileType];
-				GameObject.Instantiate(currentPrefab, new Vector3(x, 0, z), Quaternion.identity);
+				Vector3 currentPos = new Vector3(x, 0, z);
+				GameObject test = GameObject.Instantiate(currentPrefab, currentPos, Quaternion.identity);
+
+				if (TileMethods.IsWalkable(tileType))
+				{
+					Vector2Int localPos = new Vector2Int((int)test.transform.localPosition.x, (int)test.transform.localPosition.z);
+
+					if (tileType == TileType.Start)
+					{
+						startTilePos = localPos;
+					}
+					if (tileType == TileType.End)
+					{
+						endTilePos = localPos;
+					}
+					walkablePath.Add(localPos);
+				}
 			}
 		}
 	}
 }
-
-
-/* 
- * List<Vector2Int>
- * 
- * find coordinates of objects in map
- * 
- * translate to world coordinates
- * 
- * Origin, distance between center of tiles
- * 
- * 
- * lagra alla positioner av '0', '8' och '9' i en lista med namn "walkable objects in world"
- * 
- * hitta närmsta vägen från '8' till '9' med BFS djikstra i listan "walkable objects in world"...
- * ...och lagra den närmsta vägen i en ny lista med namn "Closest path"
- * 
- * förflytta EnemyModel längs med listan "Closest Path"
- */
 
 
 public class MapKeyData

@@ -31,7 +31,7 @@ public class MapReader
 
 		return lines;
 
-		//Alternative:
+		//Alternative to code above:
 		//List<string> lines = new List<string>();
 		//string liner = filePath.text.Split('#')[0];
 		//string[] rows = liner.Split('\n');
