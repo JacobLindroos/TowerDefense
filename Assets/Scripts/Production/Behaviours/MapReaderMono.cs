@@ -19,20 +19,20 @@ public class MapReaderMono : MonoBehaviour
 	[SerializeField] private MapKeyDataMono[] m_MapReaderMono;
 	[SerializeField] public TextAsset txtFile;
 
-	private List<Vector2Int> test;
+	private List<Vector2Int> foundPath;
 	private Vector2Int startPos;
 	private Vector2Int endPos;
 	private MapReader m_MapReader;
 	private CreateMap createMap;
 
 
-	public List<Vector2Int> Test => test;
+	public List<Vector2Int> FoundPath => foundPath;
 	public Vector2Int StartPos => startPos;
 	public Vector2Int EndPos => endPos;
 
 	private void Awake()
 	{
-		test = new List<Vector2Int>();
+		foundPath = new List<Vector2Int>();
 		List<MapKeyData> data = new List<MapKeyData>();
 
 		foreach (MapKeyDataMono readerMono in m_MapReaderMono)
@@ -47,7 +47,7 @@ public class MapReaderMono : MonoBehaviour
 
 		foreach (var item in createMap.WalkablePath)
 		{
-			test.Add(new Vector2Int(item.x / 2, item.y / 2));
+			foundPath.Add(new Vector2Int(item.x / 2, item.y / 2));
 		}
 
 		startPos = new Vector2Int(createMap.StartTilePos.x / 2, createMap.StartTilePos.y / 2);

@@ -155,6 +155,36 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!1 &2092474249101360654
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6453972755252801586}
+  m_Layer: 0
+  m_Name: FirePoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6453972755252801586
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2092474249101360654}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.012, y: -0.028, z: 0.999}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4511434059114826827}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4353535886944614675
 GameObject:
   m_ObjectHideFlags: 0
@@ -255,6 +285,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1430611518195826670}
+  - component: {fileID: 4208611490098512266}
   m_Layer: 0
   m_Name: Tower_Model
   m_TagString: Untagged
@@ -278,6 +309,28 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4208611490098512266
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5719485938209910767}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f0a16aebb3650e4ead874f2362fb8b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Range: 5
+  m_FireRate: 1
+  m_FireCountdown: 0
+  m_Target: {fileID: 3358623668188840345, guid: 116fda0e5defb46aba819fdb1f4ec0bf,
+    type: 3}
+  m_PartToRotate: {fileID: 1317031834752082198}
+  m_TurnSpeed: 10
+  m_BulletPrefab: {fileID: 8420419825631714096, guid: bc75d1f4d860ef34f9122a3c18ccd0ac,
+    type: 3}
+  m_FirePoint: {fileID: 6453972755252801586}
 --- !u!1 &7391422965515881056
 GameObject:
   m_ObjectHideFlags: 0
@@ -308,6 +361,7 @@ Transform:
   m_LocalScale: {x: 0.8, y: 0.5, z: 0.8}
   m_Children:
   - {fileID: 8319623177269437157}
+  - {fileID: 6453972755252801586}
   m_Father: {fileID: 1317031834752082198}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
