@@ -7,7 +7,7 @@ public class Towers : MonoBehaviour
 {
 	[Header("Attributes")]
 	[SerializeField] [Range(1,15)] private float m_Range = 15f;
-	[SerializeField] [Range(1, 5)] private float m_FireRate = 1f;
+	[SerializeField] [Range(0, 1)] private float m_FireRate = 1f;
 	[SerializeField] private float m_FireCountdown = 0f;
 
 	[Header("Unity Setup Fields")]

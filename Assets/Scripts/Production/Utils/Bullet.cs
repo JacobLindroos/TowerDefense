@@ -3,25 +3,25 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-	[SerializeField] private Transform target;
+	[SerializeField] private Transform m_Target;
 	[SerializeField] private float m_bulletSpeed = 70f;
 	[SerializeField] private GameObject m_ImpactEffect;
 
-	public void Seek(Transform _taget)
+	public void Seek(Transform target)
 	{
-		target = _taget;
+		m_Target = target;
 	}
 
     // Update is called once per frame
     void Update()
     {
-		if (target == null)
+		if (m_Target == null)
 		{
 			Destroy(gameObject);
 			return;
 		}
 
-		Vector3 direction = target.position - transform.position;
+		Vector3 direction = m_Target.position - transform.position;
 		float distanceThisFrame = m_bulletSpeed * Time.deltaTime;
 
 		if (direction.magnitude <= distanceThisFrame)
@@ -37,7 +37,7 @@ public class Bullet : MonoBehaviour
 	{
 		GameObject effectIns = (GameObject)Instantiate(m_ImpactEffect, transform.position, transform.rotation);
 		Destroy(effectIns, 2f);
-		Destroy(target.gameObject);
+		m_Target.GetComponent<EnemyHealth>().Health--;
 		Destroy(gameObject);
 	}
 }

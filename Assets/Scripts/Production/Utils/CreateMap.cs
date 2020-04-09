@@ -6,30 +6,33 @@ using System.IO;
 
 public class CreateMap //POCO
 {
-	private MapReader mapReader;
+	private MapReader m_MapReader;
 
 	//init char for prefabs
-	private const char charPath = '0';
-	private const char charOsbtacle = '1';
-	private const char charTowerDefOne = '2';
-	private const char charTowerDefTwo = '3';
-	private const char charStartEnenmyBase = '8';
-	private const char charEndPlayerBase = '9';
+	private const char m_CharPath = '0';
+	private const char m_CharOsbtacle = '1';
+	private const char m_CharTowerDefOne = '2';
+	private const char m_CharTowerDefTwo = '3';
+	private const char m_CharStartEnenmyBase = '8';
+	private const char m_CharEndPlayerBase = '9';
 
 	//cellsize
-	[SerializeField] private int cellSize = 2;
+	[SerializeField] private int m_cellSize = 2;
+	private float m_Offset = -0.75f;
 
-	private Vector2Int startTilePos;
-	private Vector2Int endTilePos;
-	private char currentTileChar;
-	private List<string> lines;
-	private List<Vector2Int> walkablePath;
+	private GameObject m_EndObject;
+	private Vector2Int m_StartTilePos;
+	private Vector2Int m_EndTilePos;
+	private char m_CurrentTileChar;
+	private List<string> m_Lines;
+	private List<Vector2Int> m_WalkablePath;
 
 	private readonly Dictionary<TileType, GameObject> m_prefabById;
 
-	public List<Vector2Int> WalkablePath => walkablePath;
-	public Vector2Int StartTilePos => startTilePos;
-	public Vector2Int EndTilePos => endTilePos;
+	public GameObject EndObject => m_EndObject;
+	public List<Vector2Int> WalkablePath => m_WalkablePath;
+	public Vector2Int StartTilePos => m_StartTilePos;
+	public Vector2Int EndTilePos => m_EndTilePos;
 
 	public CreateMap(IEnumerable<MapKeyData> mapKeyDatas, TextAsset txtFile)
 	{
@@ -39,51 +42,51 @@ public class CreateMap //POCO
 			m_prefabById.Add(data.Type, data.Prefab);
 		}
 
-		mapReader = new MapReader();
+		m_MapReader = new MapReader();
 
-		lines = new List<string>();
-		lines = mapReader.ReadTextFile(txtFile);
+		m_Lines = new List<string>();
+		m_Lines = m_MapReader.ReadTextFile(txtFile);
 	}
 
 
 	public void MapCreator()
 	{
-		walkablePath = new List<Vector2Int>();
-		for (int lineIndex = lines.Count - 1, rowIndex = 0; lineIndex >= 0; lineIndex--, rowIndex++)
+		m_WalkablePath = new List<Vector2Int>();
+		for (int lineIndex = m_Lines.Count - 1, rowIndex = 0; lineIndex >= 0; lineIndex--, rowIndex++)
 		{
-			string line = lines[lineIndex];
+			string line = m_Lines[lineIndex];
 
 			for (int columnIndex = 0; columnIndex < line.Length; columnIndex++)
 			{
 				char item = line[columnIndex];
 				
-				float z = rowIndex * cellSize;
-				float x = columnIndex * cellSize;
+				float z = rowIndex * m_cellSize;
+				float x = columnIndex * m_cellSize;
 				switch (item)
 				{
-					case charPath:
-						currentTileChar = charPath;
+					case m_CharPath:
+						m_CurrentTileChar = m_CharPath;
 						break;
-					case charOsbtacle:
-						currentTileChar = charOsbtacle;
+					case m_CharOsbtacle:
+						m_CurrentTileChar = m_CharOsbtacle;
 						break;
-					case charStartEnenmyBase:
-						currentTileChar = charStartEnenmyBase;
+					case m_CharStartEnenmyBase:
+						m_CurrentTileChar = m_CharStartEnenmyBase;
 						break;
-					case charEndPlayerBase:
-						currentTileChar = charEndPlayerBase;
+					case m_CharEndPlayerBase:
+						m_CurrentTileChar = m_CharEndPlayerBase;
 						break;
-					case charTowerDefOne:
-						currentTileChar = charTowerDefOne;
+					case m_CharTowerDefOne:
+						m_CurrentTileChar = m_CharTowerDefOne;
 						break;
-					case charTowerDefTwo:
-						currentTileChar = charTowerDefTwo;
+					case m_CharTowerDefTwo:
+						m_CurrentTileChar = m_CharTowerDefTwo;
 						break;
 				}
 
-				TileType tileType = TileMethods.TypeByIdChar[currentTileChar];
+				TileType tileType = TileMethods.TypeByIdChar[m_CurrentTileChar];
 				GameObject currentPrefab = m_prefabById[tileType];
-				Vector3 currentPos = new Vector3(x, 0, z);
+				Vector3 currentPos = new Vector3(x, m_Offset, z);
 				GameObject test = GameObject.Instantiate(currentPrefab, currentPos, Quaternion.identity);
 
 				if (TileMethods.IsWalkable(tileType))
@@ -92,13 +95,14 @@ public class CreateMap //POCO
 
 					if (tileType == TileType.Start)
 					{
-						startTilePos = localPos;
+						m_StartTilePos = localPos;
 					}
 					if (tileType == TileType.End)
 					{
-						endTilePos = localPos;
+						m_EndTilePos = localPos;
+						m_EndObject = test;
 					}
-					walkablePath.Add(localPos);
+					m_WalkablePath.Add(localPos);
 				}
 			}
 		}

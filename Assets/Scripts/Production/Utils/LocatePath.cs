@@ -5,16 +5,16 @@ using UnityEngine;
 
 public class LocatePath : MonoBehaviour
 {
-	private Dijkstra dijkstra;
-	private MapReaderMono mapMono;
-	private List<Vector3> worldPos;
+	private Dijkstra m_dijkstra;
+	private MapReaderMono m_MapMono;
+	private List<Vector3> m_WorldPos;
 
-	public List<Vector3> GetWorldPos => worldPos;
-
+	public List<Vector3> GetWorldPos => m_WorldPos;
+	public MapReaderMono MapReaderMono => m_MapMono;
 
 	private void Start()
 	{
-		mapMono = GetComponent<MapReaderMono>();
+		m_MapMono = GetComponent<MapReaderMono>();
 
 		GetPath();
 	}
@@ -22,33 +22,15 @@ public class LocatePath : MonoBehaviour
 
 	private void GetPath()
 	{
-		dijkstra = new Dijkstra(mapMono.FoundPath);
+		m_dijkstra = new Dijkstra(m_MapMono.FoundPath);
 
 		List<Vector2Int> translateToVec3;
-		translateToVec3 = dijkstra.FindPath(mapMono.StartPos, mapMono.EndPos).ToList();
+		translateToVec3 = m_dijkstra.FindPath(m_MapMono.StartPos, m_MapMono.EndPos).ToList();
 
-		worldPos = new List<Vector3>();
+		m_WorldPos = new List<Vector3>();
 		foreach (var item in translateToVec3)
 		{
-			worldPos.Add(new Vector3(item.x * 2, 0, item.y * 2));
+			m_WorldPos.Add(new Vector3(item.x * 2, 0, item.y * 2));
 		}
 	}
 }
-
-
-
-/*
- * skapa våg-system
- *		- int waves
- *		- int enemysPerWave
- *		- float timeBetweenWaves
- *		- float timeBetweenSpawns
- *		- Function that Handle Wave and Spawning enemy's
- *			- All enemy's need to get the path to follow
- *		
- *		
- *		
- * få tornen att skjuta
- * ge hälsa till player base som tar skada om en enemyModel reach's playerBase
- * 
- */

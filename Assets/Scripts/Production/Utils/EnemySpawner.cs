@@ -5,16 +5,15 @@ using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
 {
-	LocatePath locatePath;
-	[SerializeField] private GameObject enemyPrefab;
-	[SerializeField][Range(0,10)] private float m_timeBetweenWaves = 5f;
+	private LocatePath m_LocatePath;
+	[SerializeField] private GameObject m_EnemyPrefab;
+	[SerializeField][Range(0,10)] private float m_TimeBetweenWaves = 5f;
 	[SerializeField][Range(0, 5)] private float m_Countdown = 2f;
-	[SerializeField] private  int m_waveIndex = 0;
-	
+	[SerializeField] private  int m_WaveIndex = 0;
 
 	private void Start()
 	{
-		locatePath = GetComponent<LocatePath>();
+		m_LocatePath = GetComponent<LocatePath>();
 	}
 
 	private void Update()
@@ -22,7 +21,7 @@ public class EnemySpawner : MonoBehaviour
 		if (m_Countdown <= 0f)
 		{
 			StartCoroutine(SpawnWave());
-			m_Countdown = m_timeBetweenWaves;
+			m_Countdown = m_TimeBetweenWaves;
 
 		}
 
@@ -31,8 +30,8 @@ public class EnemySpawner : MonoBehaviour
 
 	IEnumerator SpawnWave()
 	{
-		m_waveIndex++;
-		for (int i = 0; i < m_waveIndex; i++)
+		m_WaveIndex++;
+		for (int i = 0; i < m_WaveIndex; i++)
 		{
 			SpawnEnemy();
 			yield return new WaitForSeconds(0.5f);
@@ -41,6 +40,6 @@ public class EnemySpawner : MonoBehaviour
 
 	private void SpawnEnemy()
 	{
-		Instantiate(enemyPrefab, locatePath.GetWorldPos[0], Quaternion.identity);
+		Instantiate(m_EnemyPrefab, m_LocatePath.GetWorldPos[0], Quaternion.identity);
 	}
 }

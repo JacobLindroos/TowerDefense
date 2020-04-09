@@ -17,22 +17,22 @@ public class MapKeyDataMono
 public class MapReaderMono : MonoBehaviour
 {
 	[SerializeField] private MapKeyDataMono[] m_MapReaderMono;
-	[SerializeField] public TextAsset txtFile;
+	[SerializeField] public TextAsset m_TxtFile;
 
-	private List<Vector2Int> foundPath;
-	private Vector2Int startPos;
-	private Vector2Int endPos;
+	private List<Vector2Int> m_FoundPath;
+	private Vector2Int m_StartPos;
+	private Vector2Int m_EndPos;
 	private MapReader m_MapReader;
-	private CreateMap createMap;
+	private CreateMap m_CreateMap;
 
-
-	public List<Vector2Int> FoundPath => foundPath;
-	public Vector2Int StartPos => startPos;
-	public Vector2Int EndPos => endPos;
+	public CreateMap CreateMap => m_CreateMap;
+	public List<Vector2Int> FoundPath => m_FoundPath;
+	public Vector2Int StartPos => m_StartPos;
+	public Vector2Int EndPos => m_EndPos;
 
 	private void Awake()
 	{
-		foundPath = new List<Vector2Int>();
+		m_FoundPath = new List<Vector2Int>();
 		List<MapKeyData> data = new List<MapKeyData>();
 
 		foreach (MapKeyDataMono readerMono in m_MapReaderMono)
@@ -42,15 +42,20 @@ public class MapReaderMono : MonoBehaviour
 		}
 
 		m_MapReader = new MapReader();
-		createMap = new CreateMap(data, txtFile);
-		createMap.MapCreator();
+		m_CreateMap = new CreateMap(data, m_TxtFile);
+		m_CreateMap.MapCreator();
 
-		foreach (var item in createMap.WalkablePath)
+		foreach (var item in m_CreateMap.WalkablePath)
 		{
-			foundPath.Add(new Vector2Int(item.x / 2, item.y / 2));
+			m_FoundPath.Add(new Vector2Int(item.x / 2, item.y / 2));
 		}
 
-		startPos = new Vector2Int(createMap.StartTilePos.x / 2, createMap.StartTilePos.y / 2);
-		endPos = new Vector2Int(createMap.EndTilePos.x / 2, createMap.EndTilePos.y / 2);
+		m_StartPos = new Vector2Int(m_CreateMap.StartTilePos.x / 2, m_CreateMap.StartTilePos.y / 2);
+		m_EndPos = new Vector2Int(m_CreateMap.EndTilePos.x / 2, m_CreateMap.EndTilePos.y / 2);
+	}
+
+	private void Start()
+	{
+		Time.timeScale = 2;
 	}
 }

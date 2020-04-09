@@ -322,11 +322,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Range: 5
-  m_FireRate: 1
+  m_FireRate: 0.4
   m_FireCountdown: 0
   m_Target: {fileID: 3358623668188840345, guid: 116fda0e5defb46aba819fdb1f4ec0bf,
     type: 3}
-  m_PartToRotate: {fileID: 1317031834752082198}
+  m_PartToRotate: {fileID: 4511434059114826827}
   m_TurnSpeed: 10
   m_BulletPrefab: {fileID: 8420419825631714096, guid: bc75d1f4d860ef34f9122a3c18ccd0ac,
     type: 3}
