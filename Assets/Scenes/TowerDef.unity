@@ -119,11 +119,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1037680787260643644, guid: 62fe375571ca5e84e92fab89cd2f2137,
+        type: 3}
+      propertyPath: m_EnemyPrefab
+      value: 
+      objectReference: {fileID: 3358623668188840345, guid: 116fda0e5defb46aba819fdb1f4ec0bf,
+        type: 3}
     - target: {fileID: 5912563611483133642, guid: 62fe375571ca5e84e92fab89cd2f2137,
         type: 3}
       propertyPath: m_Name
       value: GameLoop
       objectReference: {fileID: 0}
+    - target: {fileID: 5912563611483133684, guid: 62fe375571ca5e84e92fab89cd2f2137,
+        type: 3}
+      propertyPath: m_TxtFile
+      value: 
+      objectReference: {fileID: 4900000, guid: 515a4acbc149c3a43b934fb9110e387b, type: 3}
     - target: {fileID: 5912563611483133685, guid: 62fe375571ca5e84e92fab89cd2f2137,
         type: 3}
       propertyPath: m_LocalPosition.x
