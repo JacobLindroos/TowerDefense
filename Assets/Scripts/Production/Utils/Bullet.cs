@@ -12,9 +12,9 @@ public class Bullet : MonoBehaviour
 		m_Target = target;
 	}
 
-    // Update is called once per frame
-    void Update()
-    {
+	// Update is called once per frame
+	void Update()
+	{
 		if (m_Target == null)
 		{
 			Destroy(gameObject);
@@ -31,7 +31,7 @@ public class Bullet : MonoBehaviour
 		}
 
 		transform.Translate(direction.normalized * distanceThisFrame, Space.World);
-    }
+	}
 
 	private void HitTarget()
 	{
@@ -39,5 +39,6 @@ public class Bullet : MonoBehaviour
 		Destroy(effectIns, 2f);
 		m_Target.GetComponent<EnemyHealth>().Health--;
 		Destroy(gameObject);
+
 	}
 }

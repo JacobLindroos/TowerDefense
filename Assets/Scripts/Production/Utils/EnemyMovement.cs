@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyMovement : MonoBehaviour
+public class EnemyMovement : PoolObject
 {
 	private LocatePath m_LocatePath;
 	private int m_Current = 0;
@@ -10,6 +10,18 @@ public class EnemyMovement : MonoBehaviour
 	private Vector3 m_TargetPos;
 	[SerializeField] [Range(1, 10)] private float m_moveSpeed = 5;
 
+	public int Current
+	{
+		get
+		{
+			return m_Current;
+		}
+
+		set
+		{
+			m_Current = value;
+		}
+	}
 
 	private void Awake()
 	{
@@ -20,6 +32,11 @@ public class EnemyMovement : MonoBehaviour
 	private void Update()
 	{
 		FollowPath();
+	}
+
+	public override void OnObjectReuse()
+	{
+		m_Current = 0;
 	}
 
 	private void FollowPath()
@@ -38,9 +55,10 @@ public class EnemyMovement : MonoBehaviour
 			if (m_Current == m_LocatePath.GetWorldPos.Count - 1)
 			{
 				m_EndObject.GetComponent<PlayerBaseHealth>().Health--;
-				Debug.Log(m_EndObject.GetComponent<PlayerBaseHealth>().Health);
 
-				Destroy(gameObject);
+				//Destroy(gameObject);
+				//this.gameObject.SetActive(false);
+				Destroy();
 			}
 			m_Current++;
 		}

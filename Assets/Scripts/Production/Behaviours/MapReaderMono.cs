@@ -56,6 +56,6 @@ public class MapReaderMono : MonoBehaviour
 
 	private void Start()
 	{
-		Time.timeScale = 2;
+		//Time.timeScale = 2;
 	}
 }

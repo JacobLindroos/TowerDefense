@@ -14,6 +14,7 @@ public class EnemySpawner : MonoBehaviour
 	private void Start()
 	{
 		m_LocatePath = GetComponent<LocatePath>();
+		PoolManager.Instance.CreatePool(m_EnemyPrefab, 35);
 	}
 
 	private void Update()
@@ -40,6 +41,7 @@ public class EnemySpawner : MonoBehaviour
 
 	private void SpawnEnemy()
 	{
-		Instantiate(m_EnemyPrefab, m_LocatePath.GetWorldPos[0], Quaternion.identity);
+		PoolManager.Instance.ReuseObject(m_EnemyPrefab, m_LocatePath.GetWorldPos[0], Quaternion.identity);
+		//Instantiate(m_EnemyPrefab, m_LocatePath.GetWorldPos[0], Quaternion.identity);
 	}
 }
